@@ -71,5 +71,11 @@
         "cs-fix": "Apply PHP-CS-Fixer fixes in-place.",
         "ci": "Run the full CI bundle locally: cs-check, stan, test."
     },
-    "minimum-stability": "stable"
+    "minimum-stability": "stable",
+    "extra": {
+        "branch-alias": {
+            "dev-2.x": "2.0.x-dev",
+            "dev-main": "2.0.x-dev"
+        }
+    }
 }

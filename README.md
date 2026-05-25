@@ -6,6 +6,7 @@ HTML, HTML attributes, JavaScript, CSS and URLs.
 [![Latest Stable Version](https://poser.pugx.org/initphp/escaper/v)](https://packagist.org/packages/initphp/escaper)
 [![PHP Version Require](https://poser.pugx.org/initphp/escaper/require/php)](https://packagist.org/packages/initphp/escaper)
 [![CI](https://github.com/InitPHP/Escaper/actions/workflows/ci.yml/badge.svg)](https://github.com/InitPHP/Escaper/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/InitPHP/Escaper/branch/main/graph/badge.svg)](https://codecov.io/gh/InitPHP/Escaper)
 [![License](https://poser.pugx.org/initphp/escaper/license)](https://packagist.org/packages/initphp/escaper)
 [![Total Downloads](https://poser.pugx.org/initphp/escaper/downloads)](https://packagist.org/packages/initphp/escaper)
 

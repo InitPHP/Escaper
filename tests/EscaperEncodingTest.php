@@ -29,9 +29,9 @@ final class EscaperEncodingTest extends TestCase
 
     public function testEncodingLookupIsCaseInsensitive(): void
     {
-        self::assertSame('utf-8',        (new Escaper('UTF-8'))->getEncoding());
+        self::assertSame('utf-8', (new Escaper('UTF-8'))->getEncoding());
         self::assertSame('windows-1252', (new Escaper('Windows-1252'))->getEncoding());
-        self::assertSame('iso-8859-1',   (new Escaper('ISO-8859-1'))->getEncoding());
+        self::assertSame('iso-8859-1', (new Escaper('ISO-8859-1'))->getEncoding());
     }
 
     public function testUnsupportedEncodingThrows(): void

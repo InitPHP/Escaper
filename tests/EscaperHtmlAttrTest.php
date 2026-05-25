@@ -47,9 +47,9 @@ final class EscaperHtmlAttrTest extends TestCase
     public function testNamedEntitiesPreferredOverNumericForms(): void
     {
         self::assertSame('&quot;', $this->escaper->escHtmlAttr('"'));
-        self::assertSame('&amp;',  $this->escaper->escHtmlAttr('&'));
-        self::assertSame('&lt;',   $this->escaper->escHtmlAttr('<'));
-        self::assertSame('&gt;',   $this->escaper->escHtmlAttr('>'));
+        self::assertSame('&amp;', $this->escaper->escHtmlAttr('&'));
+        self::assertSame('&lt;', $this->escaper->escHtmlAttr('<'));
+        self::assertSame('&gt;', $this->escaper->escHtmlAttr('>'));
     }
 
     public function testControlCharactersBecomeReplacementCharacter(): void

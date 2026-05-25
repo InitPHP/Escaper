@@ -15,8 +15,6 @@ namespace InitPHP\Escaper;
 
 use InitPHP\Escaper\Exception\InvalidContextException;
 
-use function is_array;
-use function is_string;
 use function strtolower;
 
 /**
@@ -54,21 +52,26 @@ class Esc
      * Escape a string — or every string inside an array — for the given
      * output context.
      *
-     * Non-string scalars and objects inside an array are returned unchanged.
-     * For a top-level non-string, non-array value the input is returned as-is.
+     * Behaviour by input type:
+     * - **string** — escaped according to `$context` and returned.
+     * - **array** — every element is escaped recursively. Keys are not
+     *   touched; non-string, non-array elements are returned unchanged.
+     * - **anything else** — returned as-is.
      *
-     * @param array<array-key, mixed>|string $data     The value to escape.
-     * @param string                         $context  One of: html, attr, js, css, url, raw.
-     *                                                 Lookup is case-insensitive.
-     * @param string|null                    $encoding Output encoding; null uses UTF-8.
+     * @param mixed       $data     The value to escape.
+     * @param string      $context  One of `html`, `attr`, `js`, `css`,
+     *                              `url`, `raw`. Lookup is case-insensitive.
+     *                              The empty string is treated like `raw`.
+     * @param string|null $encoding Output encoding; null resolves to UTF-8.
      *
-     * @return array<array-key, mixed>|string
+     * @return mixed The escaped value, or the original value unchanged for
+     *               unsupported types and `raw`/empty contexts.
      *
-     * @throws InvalidContextException When $context is not a recognised name.
+     * @throws InvalidContextException When `$context` is not a recognised name.
      */
     public static function esc($data, string $context = 'html', ?string $encoding = null)
     {
-        if (is_array($data)) {
+        if (\is_array($data)) {
             foreach ($data as &$value) {
                 $value = self::esc($value, $context, $encoding);
             }
@@ -77,7 +80,7 @@ class Esc
             return $data;
         }
 
-        if (!is_string($data)) {
+        if (!\is_string($data)) {
             return $data;
         }
 
@@ -88,7 +91,7 @@ class Esc
 
         if (!isset(self::CONTEXT_METHODS[$context])) {
             throw new InvalidContextException(
-                sprintf('Invalid escape context "%s".', $context)
+                \sprintf('Invalid escape context "%s".', $context)
             );
         }
 

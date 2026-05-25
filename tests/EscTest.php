@@ -27,11 +27,11 @@ final class EscTest extends TestCase
 
     public function testEachContextDispatchesToTheCorrectEscaper(): void
     {
-        self::assertSame('&lt;b&gt;', Esc::esc('<b>',  'html'));
-        self::assertSame('&lt;',      Esc::esc('<',    'attr'));
-        self::assertSame('\\x3C',     Esc::esc('<',    'js'));
-        self::assertSame('\\3C ',     Esc::esc('<',    'css'));
-        self::assertSame('%3C',       Esc::esc('<',    'url'));
+        self::assertSame('&lt;b&gt;', Esc::esc('<b>', 'html'));
+        self::assertSame('&lt;', Esc::esc('<', 'attr'));
+        self::assertSame('\\x3C', Esc::esc('<', 'js'));
+        self::assertSame('\\3C ', Esc::esc('<', 'css'));
+        self::assertSame('%3C', Esc::esc('<', 'url'));
     }
 
     public function testContextLookupIsCaseInsensitive(): void
@@ -76,8 +76,8 @@ final class EscTest extends TestCase
 
     public function testNonStringNonArrayValuesArePassedThrough(): void
     {
-        self::assertSame(42,    Esc::esc(42));
-        self::assertSame(3.14,  Esc::esc(3.14));
+        self::assertSame(42, Esc::esc(42));
+        self::assertSame(3.14, Esc::esc(3.14));
         self::assertTrue(Esc::esc(true));
         self::assertNull(Esc::esc(null));
 
@@ -138,8 +138,8 @@ final class EscTest extends TestCase
         $instances = $property->getValue();
 
         self::assertCount(3, $instances);
-        self::assertArrayHasKey('utf-8',        $instances);
-        self::assertArrayHasKey('iso-8859-1',   $instances);
+        self::assertArrayHasKey('utf-8', $instances);
+        self::assertArrayHasKey('iso-8859-1', $instances);
         self::assertArrayHasKey('windows-1252', $instances);
     }
 

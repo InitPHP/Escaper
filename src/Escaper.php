@@ -19,18 +19,13 @@ use InitPHP\Escaper\Exception\InvalidUtf8Exception;
 
 use function bin2hex;
 use function ctype_digit;
-use function function_exists;
 use function hexdec;
 use function htmlspecialchars;
 use function iconv;
-use function in_array;
 use function mb_convert_encoding;
-use function ord;
 use function preg_match;
 use function preg_replace_callback;
 use function rawurlencode;
-use function sprintf;
-use function strlen;
 use function strtolower;
 use function strtoupper;
 use function substr;
@@ -138,9 +133,9 @@ class Escaper
     {
         if ($encoding !== null && $encoding !== '') {
             $encoding = strtolower($encoding);
-            if (!in_array($encoding, self::SUPPORTED_ENCODINGS, true)) {
+            if (!\in_array($encoding, self::SUPPORTED_ENCODINGS, true)) {
                 throw new EncodingNotSupportedException(
-                    sprintf('Encoding "%s" is not supported.', $encoding)
+                    \sprintf('Encoding "%s" is not supported.', $encoding)
                 );
             }
             $this->encoding = $encoding;
@@ -260,7 +255,7 @@ class Escaper
     protected function htmlAttrMatcher(array $matches): string
     {
         $chr = $matches[0];
-        if (strlen($chr) > 1) {
+        if (\strlen($chr) > 1) {
             $chr = $this->convertEncoding($chr, 'UTF-32BE', 'UTF-8');
         }
 
@@ -282,10 +277,10 @@ class Escaper
         }
 
         if ($ord > 255) {
-            return sprintf('&#x%04X;', $ord);
+            return \sprintf('&#x%04X;', $ord);
         }
 
-        return sprintf('&#x%02X;', $ord);
+        return \sprintf('&#x%02X;', $ord);
     }
 
     /**
@@ -297,21 +292,21 @@ class Escaper
     protected function jsMatcher(array $matches): string
     {
         $chr = $matches[0];
-        if (strlen($chr) === 1) {
-            return sprintf('\\x%02X', ord($chr));
+        if (\strlen($chr) === 1) {
+            return \sprintf('\\x%02X', \ord($chr));
         }
 
         $chr = $this->convertEncoding($chr, 'UTF-16BE', 'UTF-8');
         $hex = strtoupper(bin2hex($chr));
 
-        if (strlen($hex) <= 4) {
-            return sprintf('\\u%04s', $hex);
+        if (\strlen($hex) <= 4) {
+            return \sprintf('\\u%04s', $hex);
         }
 
         $highSurrogate = substr($hex, 0, 4);
         $lowSurrogate  = substr($hex, 4, 4);
 
-        return sprintf('\\u%04s\\u%04s', $highSurrogate, $lowSurrogate);
+        return \sprintf('\\u%04s\\u%04s', $highSurrogate, $lowSurrogate);
     }
 
     /**
@@ -323,14 +318,14 @@ class Escaper
     protected function cssMatcher(array $matches): string
     {
         $chr = $matches[0];
-        if (strlen($chr) === 1) {
-            $ord = ord($chr);
+        if (\strlen($chr) === 1) {
+            $ord = \ord($chr);
         } else {
             $chr = $this->convertEncoding($chr, 'UTF-32BE', 'UTF-8');
             $ord = (int) hexdec(bin2hex($chr));
         }
 
-        return sprintf('\\%X ', $ord);
+        return \sprintf('\\%X ', $ord);
     }
 
     /**
@@ -392,9 +387,9 @@ class Escaper
      */
     protected function convertEncoding(string $str, string $to, string $from): string
     {
-        if (function_exists('iconv')) {
+        if (\function_exists('iconv')) {
             $result = @iconv($from, $to, $str);
-        } elseif (function_exists('mb_convert_encoding')) {
+        } elseif (\function_exists('mb_convert_encoding')) {
             $result = @mb_convert_encoding($str, $to, $from);
         } else {
             throw new EncodingConversionException(
@@ -404,7 +399,7 @@ class Escaper
 
         if ($result === false) {
             throw new EncodingConversionException(
-                sprintf('Failed to convert string from "%s" to "%s".', $from, $to)
+                \sprintf('Failed to convert string from "%s" to "%s".', $from, $to)
             );
         }
 

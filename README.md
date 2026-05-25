@@ -132,8 +132,17 @@ A typical loop is:
 git clone https://github.com/InitPHP/Escaper.git
 cd Escaper
 composer install
-composer test
+composer ci          # cs-check + phpstan + phpunit
 ```
+
+Individual steps are also available:
+
+| Command            | What it does                                |
+| ------------------ | ------------------------------------------- |
+| `composer test`    | Run PHPUnit                                 |
+| `composer stan`    | Run PHPStan (max level)                     |
+| `composer cs-check`| Report PHP-CS-Fixer violations, no changes  |
+| `composer cs-fix`  | Apply PHP-CS-Fixer changes                  |
 
 ## Security
 

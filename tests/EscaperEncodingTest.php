@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace InitPHP\Escaper\Tests;
 
 use InitPHP\Escaper\Escaper;
+use InitPHP\Escaper\Exception\EncodingConversionException;
 use InitPHP\Escaper\Exception\EncodingNotSupportedException;
 use InitPHP\Escaper\Exception\EscaperException;
 use InitPHP\Escaper\Exception\InvalidUtf8Exception;
@@ -72,5 +73,40 @@ final class EscaperEncodingTest extends TestCase
 
         // 0xC3 0x28 is a broken 2-byte sequence.
         (new Escaper())->escHtmlAttr("\xC3\x28");
+    }
+
+    public function testWindows1252RoundTripThroughAttributeContext(): void
+    {
+        $escaper = new Escaper('windows-1252');
+
+        // 0xE9 == "é" in windows-1252. It is outside the attribute whitelist
+        // so the matcher must produce a numeric entity. The output reaches
+        // the caller after a UTF-8 → windows-1252 conversion back.
+        self::assertSame('&#xE9;', $escaper->escHtmlAttr("\xE9"));
+    }
+
+    public function testWindows1252RoundTripThroughJsContext(): void
+    {
+        $escaper = new Escaper('windows-1252');
+
+        // 0xE9 == "é". In the JS context the matcher emits é.
+        self::assertSame('\\u00E9', $escaper->escJs("\xE9"));
+    }
+
+    public function testWindows1252RoundTripThroughCssContext(): void
+    {
+        $escaper = new Escaper('windows-1252');
+
+        // 0xE9 == "é". In the CSS context the matcher emits "\E9 ".
+        self::assertSame('\\E9 ', $escaper->escCss("\xE9"));
+    }
+
+    public function testForwardConversionFailureRaisesException(): void
+    {
+        $this->expectException(EncodingConversionException::class);
+        $this->expectExceptionMessage('Failed to convert string from "windows-1252" to "UTF-8".');
+
+        // 0x81 is an undefined byte in windows-1252 — iconv returns false.
+        (new Escaper('windows-1252'))->escHtmlAttr("\x81");
     }
 }

@@ -1,180 +1,156 @@
-# InitPHP Escaper
+# initphp/escaper
 
-Securely and safely escape HTML, HTML attributes, JavaScript, CSS, and URLs.
+Context-aware output escaper for PHP. Safely render untrusted user input inside
+HTML, HTML attributes, JavaScript, CSS and URLs.
 
-[![Latest Stable Version](http://poser.pugx.org/initphp/escaper/v)](https://packagist.org/packages/initphp/escaper) [![Total Downloads](http://poser.pugx.org/initphp/escaper/downloads)](https://packagist.org/packages/initphp/escaper) [![Latest Unstable Version](http://poser.pugx.org/initphp/escaper/v/unstable)](https://packagist.org/packages/initphp/escaper) [![License](http://poser.pugx.org/initphp/escaper/license)](https://packagist.org/packages/initphp/escaper) [![PHP Version Require](http://poser.pugx.org/initphp/escaper/require/php)](https://packagist.org/packages/initphp/escaper)
+[![Latest Stable Version](https://poser.pugx.org/initphp/escaper/v)](https://packagist.org/packages/initphp/escaper)
+[![PHP Version Require](https://poser.pugx.org/initphp/escaper/require/php)](https://packagist.org/packages/initphp/escaper)
+[![CI](https://github.com/InitPHP/Escaper/actions/workflows/ci.yml/badge.svg)](https://github.com/InitPHP/Escaper/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/InitPHP/Escaper/branch/main/graph/badge.svg)](https://codecov.io/gh/InitPHP/Escaper)
+[![License](https://poser.pugx.org/initphp/escaper/license)](https://packagist.org/packages/initphp/escaper)
+[![Total Downloads](https://poser.pugx.org/initphp/escaper/downloads)](https://packagist.org/packages/initphp/escaper)
 
-## Requirements
+`htmlspecialchars()` is not enough on its own. Each output context — an HTML
+body, an attribute, a JavaScript string literal, a CSS value, a URL parameter
+— needs its own escaping rules, and using the wrong one can leave you exposed
+to XSS even when you *think* you have escaped your data.
 
-- PHP 7.4 or higher
-- PHP _CType_ Extension
-- PHP _MB_String_ or _Iconv_ Extension
+`initphp/escaper` implements the rules from the
+[OWASP XSS Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html)
+for the five most common contexts, behind a small, dependency-free API.
 
 ## Installation
 
-```php 
+```bash
 composer require initphp/escaper
 ```
 
-## Usage
+### Requirements
 
-`\InitPHP\Escaper\Esc::esc()` : 
+- PHP 7.4 or newer
+- `ext-ctype`
+- `ext-mbstring` (required); `ext-iconv` is used when present and preferred
+  over mbstring
 
-```php 
-public static function esc(string[]|string $data, string $context = 'html', ?string $encoding = null): array|string;
-```
-
-- `$data` : The content to be cleared.
-- `$context` : The method to be used for cleaning. If the value is not one of the following; Throws `Exception`.
-  - `html` 
-  - `js` 
-  - `css` 
-  - `url` 
-  - `attr`
-- `$encoding` : If the character set to be used is not specified or `NULL`; `UTF-8` is used by default.
-
-`html` Escaper Example :
-```php 
-<?php
-require_once "vendor/autoload.php";
-use \InitPHP\Escaper\Esc;
-
-$input = '<script>alert("initphp")</script>';
-?>
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Encodings set correctly!</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-</head>
-<body>
-
-<?php
-echo Esc::esc($input, 'html');
-?>
-</body></html>
-```
-
-`attr` Escaper Example :
+## Quick start
 
 ```php
-<?php
-require_once "../vendor/autoload.php";
-use \InitPHP\Escaper\Esc;
-
-$input = 'faketitle onmouseover=alert(/InitPHP!/);';
-?>
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Quoteless Attribute</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-</head>
-<body>
-<div>
-    <?php
-    // <span title=faketitle&#x20;onmouseover&#x3D;alert&#x28;&#x2F;InitPHP&#x21;&#x2F;&#x29;&#x3B;>
-    ?>
-    <span title=<?php echo Esc::esc($input, 'attr'); ?>>
-            Hello World
-    </span>
-</div>
-</body>
-</html>
-```
-
-`Js` Escaper Example :
-
-```php
-<?php
-require_once "../vendor/autoload.php";
 use InitPHP\Escaper\Esc;
 
-$input = 'bar&quot;; alert(&quot;Hello!&quot;); var xss=&quot;true';
-?>
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <title>Escaped Entities</title>
-    <meta charset="UTF-8"/>
-    <script type="text/javascript">
-        <?php
-        /**
-         * var foo = bar\x26quot\x3B\x3B\x20alert\x28\x26quot\x3BHello\x21\x26quot\x3B\x29\x3B\x20var\x20xss\x3D\x26quot\x3Btrue;
-         */
-        ?>
-        var foo = <?php echo Esc::esc($input, 'js'); ?>;
-    </script>
-</head>
-<body>
-<p>Hello World</p>
-</body>
-</html>
+echo Esc::esc('<script>alert(1)</script>');
+// &lt;script&gt;alert(1)&lt;/script&gt;
+
+echo Esc::esc('faketitle onmouseover=alert(1);', 'attr');
+// faketitle&#x20;onmouseover&#x3D;alert&#x28;1&#x29;&#x3B;
+
+echo Esc::esc('"; alert(1); var x="', 'js');
+// \x22\x3B\x20alert\x281\x29\x3B\x20var\x20x\x3D\x22
+
+echo Esc::esc('</style><script>alert(1)</script>', 'css');
+// \3C \2F style\3E \3C script\3E alert\28 1\29 \3C \2F script\3E
+
+echo Esc::esc('" onmouseover="alert(1)', 'url');
+// %22%20onmouseover%3D%22alert%281%29
 ```
 
-`css` Escaper Example :
+`Esc::esc()` also accepts arrays and recurses into them, so escaping a whole
+request payload at the view boundary is a one-liner:
 
 ```php
-<?php
-require_once "../vendor/autoload.php";
-use \InitPHP\Escaper\Esc;
-
-$input = <<<INPUT
-body {
-    background-image: url('http://example.com/bar.jpg?</style><script>alert(13)</script>');
-}
-INPUT;
-?>
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <title>Escaped CSS</title>
-    <meta charset="UTF-8"/>
-    <style>
-        <?php
-        /**
-        * body\20 \7B \D \A \20 \20 \20 \20 background\2D image\3A \20 url\28 \27 http\3A \2F \2F example\2E com\2F bar\2E jpg\3F \3C \2F style\3E \3C script\3E alert\28 13\29 \3C \2F script\3E \27 \29 \3B \D \A \7D
-        */
-        echo Esc::esc($input, 'css');
-        ?>
-    </style>
-</head>
-<body>
-<p>User controlled CSS needs to be properly escaped!</p>
-</body>
-</html>
+$safe = Esc::esc($_GET, 'html');
 ```
 
-`url` Escaper Example : 
+## API
+
+### `Esc::esc()`
 
 ```php
-<?php
-require_once "../vendor/autoload.php";
-use \InitPHP\Escaper\Esc;
-
-$query = <<<QUERY
-" onmouseover="alert('hello')
-QUERY;
-?>
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <title>Unescaped URL</title>
-    <meta charset="UTF-8"/>
-</head>
-<body>
-<?php
-// http://example.com/?query=%22%20onmouseover%3D%22alert%28%27hello%27%29
-?>
-<a href="http://example.com/?query=<?php echo Esc::esc($query, 'url'); ?>">Click</a>
-</body>
-</html>
+public static function esc(
+    array|string $data,
+    string $context = 'html',
+    ?string $encoding = null
+): array|string;
 ```
 
-## Credits
+| Argument    | Description                                                                 |
+| ----------- | --------------------------------------------------------------------------- |
+| `$data`     | A string, or an array (which is escaped recursively).                       |
+| `$context`  | `html`, `attr`, `js`, `css`, `url`, or `raw` (returns input unchanged).     |
+| `$encoding` | Output encoding. `null` resolves to UTF-8. See [Encodings](docs/encodings.md). |
 
-- [Muhammet ŞAFAK](https://www.muhammetsafak.com.tr) <<info@muhammetsafak.com.tr>>
+Throws `InitPHP\Escaper\Exception\InvalidContextException` for unknown contexts.
+
+### `Escaper`
+
+For lower-level use, instantiate `Escaper` directly. Each instance is bound to
+one encoding and exposes one method per context:
+
+```php
+use InitPHP\Escaper\Escaper;
+
+$escaper = new Escaper();          // utf-8
+$escaper = new Escaper('windows-1252');
+
+$escaper->escHtml($string);
+$escaper->escHtmlAttr($string);
+$escaper->escJs($string);
+$escaper->escCss($string);
+$escaper->escUrl($string);
+```
+
+## Documentation
+
+The [`docs/`](docs/) directory contains a per-context walkthrough with
+examples, do-and-don't guidance and security notes:
+
+- [Getting started](docs/getting-started.md)
+- [HTML body context](docs/context-html.md)
+- [HTML attribute context](docs/context-html-attribute.md)
+- [JavaScript context](docs/context-javascript.md)
+- [CSS context](docs/context-css.md)
+- [URL context](docs/context-url.md)
+- [Encodings](docs/encodings.md)
+- [Exceptions](docs/exceptions.md)
+- [Security notes](docs/security-notes.md)
+
+## A word of warning
+
+> Output escaping prevents XSS but it is not a substitute for input validation,
+> authentication, or authorisation. It is also context-sensitive: the
+> JavaScript escaper assumes the caller wraps the result in quotes, the HTML
+> attribute escaper assumes the value is used as a single attribute value, and
+> so on. Read the per-context docs before mixing contexts.
+
+## Contributing
+
+Contributions are welcome. Please read the
+[org-wide CONTRIBUTING guide](https://github.com/InitPHP/.github/blob/main/CONTRIBUTING.md)
+for the workflow, coding standards and test expectations.
+
+A typical loop is:
+
+```bash
+git clone https://github.com/InitPHP/Escaper.git
+cd Escaper
+composer install
+composer ci          # cs-check + phpstan + phpunit
+```
+
+Individual steps are also available:
+
+| Command            | What it does                                |
+| ------------------ | ------------------------------------------- |
+| `composer test`    | Run PHPUnit                                 |
+| `composer stan`    | Run PHPStan (max level)                     |
+| `composer cs-check`| Report PHP-CS-Fixer violations, no changes  |
+| `composer cs-fix`  | Apply PHP-CS-Fixer changes                  |
+
+## Security
+
+If you discover a security issue, please follow the disclosure process
+documented in [SECURITY.md](https://github.com/InitPHP/.github/blob/main/SECURITY.md)
+rather than opening a public issue.
 
 ## License
 
-Copyright &copy; 2022 [MIT License](./LICENSE)
+Released under the [MIT License](./LICENSE). © InitPHP.

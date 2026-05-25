@@ -1,13 +1,20 @@
 {
     "name": "initphp/escaper",
-    "description": "InitPHP Escaper Class",
+    "description": "Context-aware output escaper (HTML, attribute, JavaScript, CSS, URL) for safely rendering untrusted user input.",
     "type": "library",
     "license": "MIT",
-    "autoload": {
-        "psr-4": {
-            "InitPHP\\Escaper\\": "src/"
-        }
-    },
+    "keywords": [
+        "escaper",
+        "escape",
+        "xss",
+        "security",
+        "html",
+        "javascript",
+        "css",
+        "url",
+        "output-encoding",
+        "owasp"
+    ],
     "authors": [
         {
             "name": "Muhammet ŞAFAK",
@@ -16,9 +23,35 @@
             "homepage": "https://www.muhammetsafak.com.tr"
         }
     ],
-    "minimum-stability": "stable",
+    "support": {
+        "issues": "https://github.com/InitPHP/Escaper/issues",
+        "source": "https://github.com/InitPHP/Escaper",
+        "docs": "https://github.com/InitPHP/Escaper/tree/main/docs"
+    },
     "require": {
         "php": ">=7.4",
-        "ext-ctype": "*"
-    }
+        "ext-ctype": "*",
+        "ext-mbstring": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.6 || ^10.5 || ^11.5"
+    },
+    "suggest": {
+        "ext-iconv": "Preferred for encoding conversion; iconv is tried before mbstring."
+    },
+    "autoload": {
+        "psr-4": {
+            "InitPHP\\Escaper\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "InitPHP\\Escaper\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "test-coverage": "phpunit --coverage-html build/coverage"
+    },
+    "minimum-stability": "stable"
 }

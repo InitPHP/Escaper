@@ -3,6 +3,7 @@
 Context-aware output escaper for PHP. Safely render untrusted user input inside
 HTML, HTML attributes, JavaScript, CSS and URLs.
 
+[![Designed & Maintained with Tan](https://www.muhammetsafak.com.tr/badges/designed-maintained-with-tan.svg)](https://www.muhammetsafak.com.tr/en/tan/)
 [![Latest Stable Version](https://poser.pugx.org/initphp/escaper/v)](https://packagist.org/packages/initphp/escaper)
 [![PHP Version Require](https://poser.pugx.org/initphp/escaper/require/php)](https://packagist.org/packages/initphp/escaper)
 [![CI](https://github.com/InitPHP/Escaper/actions/workflows/ci.yml/badge.svg)](https://github.com/InitPHP/Escaper/actions/workflows/ci.yml)

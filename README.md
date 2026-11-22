@@ -28,7 +28,7 @@ composer require initphp/escaper
 
 ### Requirements
 
-- PHP 7.4 or newer
+- PHP 8.2 or newer
 - `ext-ctype`
 - `ext-mbstring` (required); `ext-iconv` is used when present and preferred
   over mbstring

@@ -48,7 +48,7 @@ final class EscaperCssTest extends TestCase
 
         self::assertSame(
             '\\3C \\2F style\\3E \\3C script\\3E alert\\28 1\\29 \\3C \\2F script\\3E ',
-            $output
+            $output,
         );
     }
 

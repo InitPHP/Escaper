@@ -91,7 +91,7 @@ class Esc
 
         if (!isset(self::CONTEXT_METHODS[$context])) {
             throw new InvalidContextException(
-                \sprintf('Invalid escape context "%s".', $context)
+                \sprintf('Invalid escape context "%s".', $context),
             );
         }
 

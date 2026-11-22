@@ -30,7 +30,7 @@ final class EscaperHtmlAttrTest extends TestCase
     {
         self::assertSame(
             'abc,XYZ.-_0123',
-            $this->escaper->escHtmlAttr('abc,XYZ.-_0123')
+            $this->escaper->escHtmlAttr('abc,XYZ.-_0123'),
         );
     }
 
@@ -40,7 +40,7 @@ final class EscaperHtmlAttrTest extends TestCase
 
         self::assertSame(
             'faketitle&#x20;onmouseover&#x3D;alert&#x28;&#x2F;InitPHP&#x21;&#x2F;&#x29;&#x3B;',
-            $this->escaper->escHtmlAttr($input)
+            $this->escaper->escHtmlAttr($input),
         );
     }
 

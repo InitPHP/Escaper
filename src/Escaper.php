@@ -135,7 +135,7 @@ class Escaper
             $encoding = strtolower($encoding);
             if (!\in_array($encoding, self::SUPPORTED_ENCODINGS, true)) {
                 throw new EncodingNotSupportedException(
-                    \sprintf('Encoding "%s" is not supported.', $encoding)
+                    \sprintf('Encoding "%s" is not supported.', $encoding),
                 );
             }
             $this->encoding = $encoding;
@@ -182,7 +182,7 @@ class Escaper
         $result = preg_replace_callback(
             '/[^a-z0-9,\.\-_]/iSu',
             [$this, 'htmlAttrMatcher'],
-            $str
+            $str,
         );
 
         return $this->fromUtf8($result ?? '');
@@ -206,7 +206,7 @@ class Escaper
         $result = preg_replace_callback(
             '/[^a-z0-9,\._]/iSu',
             [$this, 'jsMatcher'],
-            $str
+            $str,
         );
 
         return $this->fromUtf8($result ?? '');
@@ -241,7 +241,7 @@ class Escaper
         $result = preg_replace_callback(
             '/[^a-z0-9]/iSu',
             [$this, 'cssMatcher'],
-            $str
+            $str,
         );
 
         return $this->fromUtf8($result ?? '');
@@ -345,7 +345,7 @@ class Escaper
 
         if (!$this->isUtf8($result)) {
             throw new InvalidUtf8Exception(
-                'String to be escaped was not valid UTF-8 or could not be converted.'
+                'String to be escaped was not valid UTF-8 or could not be converted.',
             );
         }
 
@@ -393,13 +393,13 @@ class Escaper
             $result = @mb_convert_encoding($str, $to, $from);
         } else {
             throw new EncodingConversionException(
-                'Either ext-iconv or ext-mbstring is required to convert string encodings.'
+                'Either ext-iconv or ext-mbstring is required to convert string encodings.',
             );
         }
 
         if ($result === false) {
             throw new EncodingConversionException(
-                \sprintf('Failed to convert string from "%s" to "%s".', $from, $to)
+                \sprintf('Failed to convert string from "%s" to "%s".', $from, $to),
             );
         }
 

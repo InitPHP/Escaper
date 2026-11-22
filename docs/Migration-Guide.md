@@ -143,7 +143,7 @@ In 1.x the static cache rebuilt the `Escaper` on every call when `$encoding === 
 
 ## 7. Examples directory removed
 
-The runnable PHP files under `Examples/` are gone. The same scenarios live under [`docs/`](https://github.com/InitPHP/Escaper/tree/main/docs) inside the repo and in the per-context pages (see the per-context pages: [HTML](Context-HTML.md), [HTML attribute](Context-HTML-Attribute.md), [JavaScript](Context-JavaScript.md), [CSS](Context-CSS.md), [URL](Context-URL.md)).
+The runnable PHP files under `Examples/` are gone. The same scenarios live under [`docs/`](https://github.com/InitPHP/Escaper/tree/main/docs) inside the repo and in this documentation (see the per-context pages: [HTML](Context-HTML.md), [HTML attribute](Context-HTML-Attribute.md), [JavaScript](Context-JavaScript.md), [CSS](Context-CSS.md), [URL](Context-URL.md)).
 
 If you scripted against the example file paths, point your tooling at `docs/` instead.
 

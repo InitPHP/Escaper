@@ -62,6 +62,7 @@ The package's GitHub Actions workflow runs on every push and pull request and ex
 - PHP-CS-Fixer (one job).
 - PHPStan at `level: max` (one job).
 - PHPUnit across PHP 8.2, 8.3, 8.4 and 8.5 with the highest dependency set, plus a `--prefer-lowest` run on PHP 8.2 and 8.4.
+- A coverage job that uploads to Codecov.
 
 The workflow file lives at [`.github/workflows/ci.yml`](https://github.com/InitPHP/Escaper/blob/main/.github/workflows/ci.yml).
 

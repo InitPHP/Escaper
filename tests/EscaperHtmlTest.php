@@ -23,7 +23,7 @@ final class EscaperHtmlTest extends TestCase
 
         self::assertSame(
             '&lt;script&gt;alert(&quot;xss&quot;)&lt;/script&gt;',
-            $output
+            $output,
         );
     }
 

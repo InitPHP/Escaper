@@ -39,7 +39,7 @@ final class EscaperUrlTest extends TestCase
 
         self::assertSame(
             '%22%20onmouseover%3D%22alert%28%27hello%27%29',
-            $output
+            $output,
         );
     }
 }

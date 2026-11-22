@@ -21,7 +21,7 @@ final class EscTest extends TestCase
     {
         self::assertSame(
             '&lt;b&gt;hi&lt;/b&gt;',
-            Esc::esc('<b>hi</b>')
+            Esc::esc('<b>hi</b>'),
         );
     }
 
@@ -70,7 +70,7 @@ final class EscTest extends TestCase
                 'a' => '&lt;x&gt;',
                 'b' => ['c' => '&lt;y&gt;', 'd' => ['e' => '&lt;z&gt;']],
             ],
-            Esc::esc($input)
+            Esc::esc($input),
         );
     }
 
@@ -91,7 +91,7 @@ final class EscTest extends TestCase
 
         self::assertSame(
             ['a' => '&lt;x&gt;', 'b' => 1, 'c' => null, 'd' => true],
-            Esc::esc($input)
+            Esc::esc($input),
         );
     }
 
@@ -114,7 +114,6 @@ final class EscTest extends TestCase
 
         $reflection = new \ReflectionClass(Esc::class);
         $property   = $reflection->getProperty('instances');
-        $property->setAccessible(true);
 
         /** @var array<string, object> $instances */
         $instances = $property->getValue();
@@ -132,7 +131,6 @@ final class EscTest extends TestCase
 
         $reflection = new \ReflectionClass(Esc::class);
         $property   = $reflection->getProperty('instances');
-        $property->setAccessible(true);
 
         /** @var array<string, object> $instances */
         $instances = $property->getValue();

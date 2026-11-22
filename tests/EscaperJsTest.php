@@ -37,7 +37,7 @@ final class EscaperJsTest extends TestCase
 
         self::assertSame(
             'bar\\x26quot\\x3B\\x3B\\x20alert\\x28\\x26quot\\x3BHello\\x21\\x26quot\\x3B\\x29\\x3B\\x20var\\x20xss\\x3D\\x26quot\\x3Btrue',
-            $this->escaper->escJs($input)
+            $this->escaper->escJs($input),
         );
     }
 

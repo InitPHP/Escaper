@@ -8,6 +8,4 @@ namespace InitPHP\Escaper\Exception;
  * Thrown when the encoding requested at construction time is not part of the
  * supported whitelist.
  */
-class EncodingNotSupportedException extends EscaperException
-{
-}
+class EncodingNotSupportedException extends EscaperException {}

@@ -8,7 +8,7 @@ If your 1.x code only calls `Esc::esc()` or `Escaper::escHtml()` etc. on the hap
 
 | Area                                | 1.x                                                                   | 2.0                                                                                              |
 | ----------------------------------- | --------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
-| Minimum PHP                         | 7.4                                                                   | 8.2 (raised after 2.0.0; see the [changelog](https://github.com/InitPHP/Escaper/blob/main/CHANGELOG.md)) |
+| Minimum PHP                         | 7.4                                                                   | 7.4 (raised to 8.2 in 3.0.0; see the [changelog](https://github.com/InitPHP/Escaper/blob/main/CHANGELOG.md)) |
 | `ext-mbstring`                      | optional                                                              | **required**                                                                                     |
 | Encoding-conversion failure         | silently returned `''`                                                | throws `EncodingConversionException`                                                              |
 | Exception base                      | plain `\Exception`                                                    | typed `EscaperException` (extends `\RuntimeException`)                                            |

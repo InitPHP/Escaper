@@ -77,7 +77,7 @@ public static function esc(
 | ----------- | --------------------------------------------------------------------------- |
 | `$data`     | A string, or an array (which is escaped recursively).                       |
 | `$context`  | `html`, `attr`, `js`, `css`, `url`, or `raw` (returns input unchanged).     |
-| `$encoding` | Output encoding. `null` resolves to UTF-8. See [Encodings](docs/encodings.md). |
+| `$encoding` | Output encoding. `null` resolves to UTF-8. See [Encodings](docs/Encodings.md). |
 
 Throws `InitPHP\Escaper\Exception\InvalidContextException` for unknown contexts.
 
@@ -104,15 +104,15 @@ $escaper->escUrl($string);
 The [`docs/`](docs/) directory contains a per-context walkthrough with
 examples, do-and-don't guidance and security notes:
 
-- [Getting started](docs/getting-started.md)
-- [HTML body context](docs/context-html.md)
-- [HTML attribute context](docs/context-html-attribute.md)
-- [JavaScript context](docs/context-javascript.md)
-- [CSS context](docs/context-css.md)
-- [URL context](docs/context-url.md)
-- [Encodings](docs/encodings.md)
-- [Exceptions](docs/exceptions.md)
-- [Security notes](docs/security-notes.md)
+- [Quick Start](docs/Quick-Start.md)
+- [HTML body context](docs/Context-HTML.md)
+- [HTML attribute context](docs/Context-HTML-Attribute.md)
+- [JavaScript context](docs/Context-JavaScript.md)
+- [CSS context](docs/Context-CSS.md)
+- [URL context](docs/Context-URL.md)
+- [Encodings](docs/Encodings.md)
+- [Exceptions](docs/Exceptions.md)
+- [Security notes](docs/Security-Notes.md)
 
 ## A word of warning
 

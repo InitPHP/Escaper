@@ -42,15 +42,19 @@ if (!in_array($scheme, ['http', 'https', 'mailto'], true)) {
 echo '<a href="' . Esc::esc($url, 'attr') . '">link</a>';
 ```
 
-A common variant is to allow only relative URLs:
+A common variant is to allow only site-relative URLs. Do **not** build this from a deny-list such as "`parse_url` found no scheme and it does not start with `//`": `parse_url()` does not recognise a scheme that contains a tab or newline (`java<TAB>script:…`), and browsers strip those characters before parsing the URL, so the value runs as `javascript:`. `/\evil.com` also passes such a check and is treated by browsers as a protocol-relative URL. Match the whole value against an allow-list pattern instead:
 
 ```php
-if ($scheme !== '' || str_starts_with(ltrim($url), '//')) {
+// Accept only an absolute path ("/account/orders?page=2"): it must start with a
+// single "/", and contain no control characters, spaces or backslashes.
+if (preg_match('#^/(?![/\\\\])[^\x00-\x20\\\\]*$#D', $url) !== 1) {
     $url = '#';
 }
+
+echo '<a href="' . Esc::esc($url, 'attr') . '">link</a>';
 ```
 
-`str_starts_with` and `parse_url` together cover the obvious attack shapes; explicit allow-listing covers the obscure ones.
+Anything that does not match — including a bare `page.html`, which this pattern rejects on purpose — becomes `#`. Whichever variant you use, escaping happens last and does not replace the validation: `Esc::esc($url, 'attr')` keeps tab, newline and carriage return as character references (`&#x09;`), which the browser decodes back before it parses the URL.
 
 ## 4. Content-Security-Policy is your seatbelt
 

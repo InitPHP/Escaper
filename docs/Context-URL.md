@@ -119,7 +119,7 @@ if (!in_array($scheme, ['http', 'https', 'mailto'], true)) {
 echo '<a href="' . Esc::esc($url, 'attr') . '">link</a>';
 ```
 
-See [Security Notes → URL scheme validation](Security-Notes.md#3-url-scheme-validation).
+Keep this an **allow-list** of known-good schemes. A check that only rejects "has a scheme" is not enough, because `parse_url()` does not detect `java<TAB>script:`, which browsers still run as `javascript:`. For a site-relative-only variant, see [Security Notes → URL scheme validation](Security-Notes.md#3-url-scheme-validation).
 
 ## When **not** to use it
 

@@ -5,6 +5,13 @@ All notable changes to `initphp/escaper` are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Changed
+
+- The CI matrix now also covers PHP 8.6. The `php` constraint is unchanged
+  (`"php": "^8.2"`).
+
 ## [3.0.0] - 2026-11-22
 
 ### Changed

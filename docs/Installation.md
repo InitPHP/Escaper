@@ -4,7 +4,7 @@
 
 | Component         | Minimum                  | Notes                                                                                                                                                                  |
 | ----------------- | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| PHP               | **8.2**                  | Tested on 8.2, 8.3, 8.4, 8.5 in CI.                                                                                                                                    |
+| PHP               | **8.2**                  | Tested on 8.2, 8.3, 8.4, 8.5, 8.6 in CI.                                                                                                                                    |
 | `ext-ctype`       | always                   | Used for the digit-only fast path in every context escaper.                                                                                                            |
 | `ext-mbstring`    | always                   | Required for the encoding-conversion fallback when `ext-iconv` is not available. Composer enforces it.                                                                |
 | `ext-iconv`       | optional but preferred   | If present, used in place of mbstring for `iconv()`-based conversion. Composer lists it under `suggest`.                                                              |
@@ -61,7 +61,7 @@ The package's GitHub Actions workflow runs on every push and pull request and ex
 - `composer validate --strict` (one job).
 - PHP-CS-Fixer (one job).
 - PHPStan at `level: max` (one job).
-- PHPUnit across PHP 8.2, 8.3, 8.4 and 8.5 with the highest dependency set, plus a `--prefer-lowest` run on PHP 8.2 and 8.4.
+- PHPUnit across PHP 8.2, 8.3, 8.4, 8.5 and 8.6 with the highest dependency set, plus a `--prefer-lowest` run on PHP 8.2 and 8.4.
 - A coverage job that uploads to Codecov.
 
 The workflow file lives at [`.github/workflows/ci.yml`](https://github.com/InitPHP/Escaper/blob/main/.github/workflows/ci.yml).

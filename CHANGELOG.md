@@ -95,6 +95,7 @@ necessary even though the public surface is unchanged. See
 
 Initial release.
 
+[Unreleased]: https://github.com/InitPHP/Escaper/compare/3.0.0...HEAD
 [3.0.0]: https://github.com/InitPHP/Escaper/compare/2.0.0...3.0.0
 [2.0.0]: https://github.com/InitPHP/Escaper/compare/1.0...2.0.0
 [1.0]: https://github.com/InitPHP/Escaper/releases/tag/1.0

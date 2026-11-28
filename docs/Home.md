@@ -46,7 +46,7 @@ There are two entry points: a tiny static facade ([`Esc`](Esc-Facade.md)) for on
 - **Strict failure mode.** Encoding-conversion failures raise a typed exception instead of returning an empty string. No silent data loss.
 - **PHPStan `level: max`, zero issues.** Hard to regress without CI catching it.
 - **Zero runtime dependencies.** `ext-ctype` and `ext-mbstring` are the entire footprint. `ext-iconv` is optional and is preferred when available.
-- **Tested on PHP 8.2 → 8.5** in CI on every push, with a `--prefer-lowest` dependency run on PHP 8.2 and 8.4.
+- **Tested on PHP 8.2 → 8.6** in CI on every push, with a `--prefer-lowest` dependency run on PHP 8.2 and 8.4.
 
 ## At a glance — feature matrix
 
@@ -75,7 +75,7 @@ There are two entry points: a tiny static facade ([`Esc`](Esc-Facade.md)) for on
 ## Package metadata
 
 - **License**: MIT
-- **Minimum PHP**: 8.2 (tested on 8.2, 8.3, 8.4, 8.5 in CI)
+- **Minimum PHP**: 8.2 (tested on 8.2, 8.3, 8.4, 8.5, 8.6 in CI)
 - **Runtime dependencies**: `ext-ctype`, `ext-mbstring`
 - **Optional**: `ext-iconv` (preferred when present)
 - **Packagist**: [`initphp/escaper`](https://packagist.org/packages/initphp/escaper)

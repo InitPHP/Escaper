@@ -5,6 +5,13 @@ All notable changes to `initphp/escaper` are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Changed
+
+- The CI matrix now also covers PHP 8.6. The `php` constraint is unchanged
+  (`"php": "^8.2"`).
+
 ## [3.0.0] - 2026-11-22
 
 ### Changed
@@ -88,6 +95,7 @@ necessary even though the public surface is unchanged. See
 
 Initial release.
 
+[Unreleased]: https://github.com/InitPHP/Escaper/compare/3.0.0...HEAD
 [3.0.0]: https://github.com/InitPHP/Escaper/compare/2.0.0...3.0.0
 [2.0.0]: https://github.com/InitPHP/Escaper/compare/1.0...2.0.0
 [1.0]: https://github.com/InitPHP/Escaper/releases/tag/1.0
